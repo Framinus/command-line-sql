@@ -14,7 +14,7 @@ function createTask(arg) {
     RETURNING *;
     `, [arg, false])
     .then((data) => {
-      console.log(data[1]);
+      console.log(data[0]);
     })
     .catch((err) => {
       console.log("oops!"+err.message);
@@ -26,7 +26,8 @@ function completeTask(id) {
     UPDATE tasks
     SET completed = true
     WHERE id = $1
-    `, id)
+    RETURNING *
+    `, [id])
   .then((data) => {
     console.log(data);
   })
