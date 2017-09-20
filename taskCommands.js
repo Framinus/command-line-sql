@@ -7,14 +7,13 @@ const db = pgp({
 });
 
 function createTask(arg) {
-  console.log(arg);
-  return db.query(`
+  return db.one(`
     INSERT INTO tasks (description, completed)
     VALUES ($1, $2)
     RETURNING *;
     `, [arg, false])
     .then((data) => {
-      console.log(data[0]);
+      console.log(data);
     })
     .catch((err) => {
       console.log("oops!"+err.message);
@@ -22,7 +21,7 @@ function createTask(arg) {
 }
 
 function completeTask(id) {
-  return db.query(`
+  return db.one(`
     UPDATE tasks
     SET completed = true
     WHERE id = $1
@@ -37,12 +36,13 @@ function completeTask(id) {
 }
 
 function deleteTask(id) {
-  return db.query(`
+  return db.one(`
     DELETE FROM tasks
     WHERE id = $1
     RETURNING id;
     `, id)
     .then((data) => {
+      console.log('You have deleted task #:');
       console.log(data);
     })
     .catch((err) => {
@@ -51,7 +51,7 @@ function deleteTask(id) {
 }
 
 function listTasks() {
-  return db.query("SELECT * FROM tasks;")
+  return db.any("SELECT * FROM tasks;")
   .then((data) => {
     console.log(data);
   })
