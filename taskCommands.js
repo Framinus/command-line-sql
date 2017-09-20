@@ -13,7 +13,7 @@ function createTask(arg) {
     RETURNING *;
     `, [arg, false])
     .then((data) => {
-      console.log(data);
+      console.log(`Task added: ${data.description}`);
     })
     .catch((err) => {
       console.log("oops!"+err.message);
@@ -28,7 +28,7 @@ function completeTask(id) {
     RETURNING *
     `, [id])
   .then((data) => {
-    console.log(data);
+    console.log(`Completed task ${data.id}: ${data.description}`);
   })
   .catch((err) => {
     console.log(err);
@@ -39,11 +39,10 @@ function deleteTask(id) {
   return db.one(`
     DELETE FROM tasks
     WHERE id = $1
-    RETURNING id;
+    RETURNING *
     `, id)
     .then((data) => {
-      console.log('You have deleted task #:');
-      console.log(data);
+      console.log(`Deleted task # ${data.id}: ${data.description}`);
     })
     .catch((err) => {
       console.log(err);
@@ -53,11 +52,34 @@ function deleteTask(id) {
 function listTasks() {
   return db.any("SELECT * FROM tasks;")
   .then((data) => {
-    console.log(data);
+    console.log(`Id  Description   Status`);
+    console.log(`---------------------------------`);
+    const sortedArray = data.sort((a, b) => {
+      const idA = a.id;
+      const idB = b.id;
+      return idA - idB;
+    });
+    // function spacer () {
+    //   function determineSpace() {
+    //     for (let i = 0; i < sortedArray.length; i += 1) {
+    //       let maxLength = 0;
+    //       if (sortedArray[i].description.length > maxLength) {
+    //         maxLength = sortedArray[i].description.length;
+    //       }
+    //     }
+    //     return maxLength + 2;
+    //   }
+    //   const space = ' '.repeat(determineSpace);
+    //   return space;
+    //   }
+    sortedArray.forEach((row) => {
+      console.log(`${row.id}  ${row.description} ${row.completed}`);
+    });
   })
   .catch((err) => {
     console.log(err);
-  });
+  })
+  pgp.end();
 }
 
 module.exports = {

@@ -8,9 +8,7 @@ const arg = process.argv[3];
 const commandArray = ["add", "complete", "delete", "list"];
 const funcArray = [createTask, completeTask, deleteTask, listTasks];
 
-(function () {
+
   if (!commandArray.includes(command)) {throw new Error('not a valid command!')}
     const index = commandArray.indexOf(command);
-    return funcArray[index](arg);
-  }
-())
+    funcArray[index](arg);
