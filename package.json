@@ -1,0 +1,31 @@
+{
+  "name": "command-line-sql",
+  "version": "1.0.0",
+  "description": "Command Line TodoList with SQL",
+  "main": "tasks.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "node tasks",
+    "test": "NODE_ENV=test mocha ./test/*_test.js",
+    "test:db:create": "createdb tasks_test",
+    "test:db:drop": "dropdb tasks_test",
+    "test:db:schema": "psql tasks_test < ./database/schema.sql",
+    "test:db:reset": "npm run test:db:drop && npm run test:db:create && npm run test:db:schema"
+  },
+  "repository": {
+    "type": "git",
+    "url": "command-line-sql"
+  },
+  "author": "James McCormack",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3"
+  },
+  "dependencies": {
+    "pg": "^7.3.0",
+    "pg-promise": "^6.7.1"
+  }
+}
