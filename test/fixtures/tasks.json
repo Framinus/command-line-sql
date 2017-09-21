@@ -1,0 +1,42 @@
+[
+  {
+    "description": "make coffee",
+    "completed": false
+  },
+  {
+    "description": "eat breakfast",
+    "completed": false
+  },
+  {
+    "description": "watch Steven Universe",
+    "completed": false
+  },
+  {
+    "description": "make art",
+    "completed": false
+  },
+  {
+    "description": "write a song",
+    "completed": false
+  },
+  {
+    "description": "learn to juggle",
+    "completed": false
+  },
+  {
+    "description": "eat lunch",
+    "completed": false
+  },
+  {
+    "description": "take a nap",
+    "completed": false
+  },
+  {
+    "description": "solve a puzzle",
+    "completed": false
+  },
+  {
+    "description": "write a song",
+    "completed": false
+  }
+]

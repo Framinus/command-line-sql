@@ -87,5 +87,5 @@ function listTasks() {
 
 
 module.exports = {
-  createTask, completeTask, deleteTask, listTasks
+  db, createTask, completeTask, deleteTask, listTasks
 }
