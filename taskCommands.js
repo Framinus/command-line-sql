@@ -32,7 +32,8 @@ function completeTask(id) {
     console.log(`Completed task ${data.id}: ${data.description}`);
   })
   .catch((err) => {
-    console.log(err);
+    console.log(`\ninput must be in this order: command, then task # you want to complete\n`);
+    // console.error(err);
   })
   pgp.end();
 }
