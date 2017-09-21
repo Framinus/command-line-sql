@@ -16,7 +16,7 @@ function createTask(arg) {
       console.log(`Task added: ${data.description}`);
     })
     .catch((err) => {
-      console.log("oops!"+err.message);
+      console.log(`input must be in this order: add, then a task.`);
     })
     pgp.end();
 }
@@ -32,7 +32,7 @@ function completeTask(id) {
     console.log(`Completed task ${data.id}: ${data.description}`);
   })
   .catch((err) => {
-    console.log(`\ninput must be in this order: command, then task # you want to complete\n`);
+    console.log(`input must be in this order: complete, then task # you want to complete..`);
     // console.error(err);
   })
   pgp.end();
@@ -48,7 +48,7 @@ function deleteTask(id) {
       console.log(`Deleted task # ${data.id}: ${data.description}`);
     })
     .catch((err) => {
-      console.log(err);
+      console.log(`input must be in this order: delete, then the task number you want to delete.`);
     })
     pgp.end();
 }
@@ -56,7 +56,7 @@ function deleteTask(id) {
 function listTasks() {
   return db.any("SELECT * FROM tasks;")
   .then((data) => {
-    console.log(`\nId  Description   Status`);
+    console.log(`\nId  Description   Completed`);
     console.log(`---------------------------`);
     const sortedArray = data.sort((a, b) => {
       const idA = a.id;
@@ -77,7 +77,7 @@ function listTasks() {
       console.log(`${row.id}  ${row.description} ${space} ${row.completed}`)
     });
     console.log(`---------------------------`);
-    console.log(`\n`);
+    console.log(`You have ${sortedArray.length} tasks.\n`);
   })
   .catch((err) => {
     console.log(err);
