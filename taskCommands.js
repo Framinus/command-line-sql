@@ -17,7 +17,8 @@ function createTask(arg) {
     })
     .catch((err) => {
       console.log("oops!"+err.message);
-    });
+    })
+    pgp.end();
 }
 
 function completeTask(id) {
@@ -32,7 +33,8 @@ function completeTask(id) {
   })
   .catch((err) => {
     console.log(err);
-  });
+  })
+  pgp.end();
 }
 
 function deleteTask(id) {
@@ -46,41 +48,42 @@ function deleteTask(id) {
     })
     .catch((err) => {
       console.log(err);
-    });
+    })
+    pgp.end();
 }
 
 function listTasks() {
   return db.any("SELECT * FROM tasks;")
   .then((data) => {
-    console.log(`Id  Description   Status`);
-    console.log(`---------------------------------`);
+    console.log(`\nId  Description   Status`);
+    console.log(`---------------------------`);
     const sortedArray = data.sort((a, b) => {
       const idA = a.id;
       const idB = b.id;
       return idA - idB;
     });
-    // function spacer () {
-    //   function determineSpace() {
-    //     for (let i = 0; i < sortedArray.length; i += 1) {
-    //       let maxLength = 0;
-    //       if (sortedArray[i].description.length > maxLength) {
-    //         maxLength = sortedArray[i].description.length;
-    //       }
-    //     }
-    //     return maxLength + 2;
-    //   }
-    //   const space = ' '.repeat(determineSpace);
-    //   return space;
-    //   }
+      const spacer = function () {
+        let maxLength = 0;
+        for (let i = 0; i < sortedArray.length; i += 1) {
+          if (sortedArray[i].description.length > maxLength) {
+            maxLength = sortedArray[i].description.length;
+          }
+        }
+        return maxLength + 2;
+      }
     sortedArray.forEach((row) => {
-      console.log(`${row.id}  ${row.description} ${row.completed}`);
+      const space = ' '.repeat(spacer() - row.description.length);
+      console.log(`${row.id}  ${row.description} ${space} ${row.completed}`)
     });
+    console.log(`---------------------------`);
+    console.log(`\n`);
   })
   .catch((err) => {
     console.log(err);
   })
   pgp.end();
 }
+
 
 module.exports = {
   createTask, completeTask, deleteTask, listTasks
