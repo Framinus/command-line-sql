@@ -8,11 +8,6 @@ const arg = process.argv[3];
 
 const commandArray = ["add", "complete", "delete", "list"];
 const funcArray = [createTask, completeTask, deleteTask, listTasks];
-const commands = {
-  "add": createTask,
-  completeTask
-}
-commands[userInput](ARGS)
 
 const initializeCmd = function () {
   if (!commandArray.includes(command)) {

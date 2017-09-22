@@ -1,5 +1,4 @@
 const sql = require('./../taskCommands.js');
-// might not need the pg-promise require here?
 const pgp = require('pg-promise');
 const createTask = require('./../taskCommands.js');
 const taskData = require('./fixtures/tasks.json');
@@ -19,7 +18,6 @@ const resetTaskIDs = function () {
   });
 };
 
-// you are problem function. not reading createTask correctly.
 const insertTaskData = function () {
   return Promise.all(
     taskData.map((task) => {
