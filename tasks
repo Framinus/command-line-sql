@@ -18,11 +18,9 @@ const initializeCmd = function () {
   .then(data => data)
   .catch((err) => {
     console.log('error in initializeCmd func', err);
-  })
-  // this finally block is throwing a syntax error.
-  // .finally(() => {
-  //   pgp.end();
-  // })
+  });
 }
 
-initializeCmd();
+initializeCmd().then(() => {
+  process.exit();
+});

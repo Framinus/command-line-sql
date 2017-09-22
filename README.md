@@ -4,7 +4,8 @@
 
 2) my mocha tests are not reading the data passed into them from the returned promise; however, my test database is responding to the functions called in the test.
 
-3) there is a lag of about 7 seconds after i run query functions. The data has already been returned, so I am guessing that an open connection pool is the culprit.
+~~ 3) there is a lag of about 7 seconds after i run query functions. The data has already been returned, so I am guessing that an open connection pool is the culprit. ~~
+* chained process.exit to the end of my initializeCmd function and the lag stopped. *
 
 ## What I have tried:
 
