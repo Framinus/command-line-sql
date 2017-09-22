@@ -1,12 +1,16 @@
 const pgp = require('pg-promise')();
 
+const databaseName = process.env.NODE_ENV === 'test'
+                      ? 'tasks_test'
+                      : 'tasks';
+
 const db = pgp({
   host: 'localhost',
   port: 5432,
-  database: 'tasks',
+  database: databaseName,
 });
 
-function createTask(arg) {
+const createTask = function (arg) {
   return db.one(`
     INSERT INTO tasks (description, completed)
     VALUES ($1, $2)
@@ -21,7 +25,7 @@ function createTask(arg) {
     pgp.end();
 }
 
-function completeTask(id) {
+const completeTask = function (id) {
   return db.one(`
     UPDATE tasks
     SET completed = true
@@ -33,12 +37,11 @@ function completeTask(id) {
   })
   .catch((err) => {
     console.log(`input must be in this order: complete, then task # you want to complete..`);
-    // console.error(err);
   })
   pgp.end();
 }
 
-function deleteTask(id) {
+const deleteTask = function (id) {
   return db.one(`
     DELETE FROM tasks
     WHERE id = $1
@@ -53,7 +56,7 @@ function deleteTask(id) {
     pgp.end();
 }
 
-function listTasks() {
+const listTasks = function () {
   return db.any("SELECT * FROM tasks;")
   .then((data) => {
     console.log(`\nId  Description   Completed`);
@@ -87,5 +90,9 @@ function listTasks() {
 
 
 module.exports = {
-  db, createTask, completeTask, deleteTask, listTasks
+  db,
+  createTask,
+  completeTask,
+  deleteTask,
+  listTasks,
 }

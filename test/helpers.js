@@ -1,10 +1,13 @@
-const { db, sql } = require('./../taskCommands.js');
-const tasksFixtures = require('./fixtures/tasks.json');
+const sql = require('./../taskCommands.js');
+const pgp = require('pg-promise');
+const createTask = require('./../taskCommands.js');
+const taskData = require('./fixtures/tasks.json');
 
 const clearDatabase = function () {
-  return sql.db.oneOrNone("DELETE * FROM tasks")
+  return sql.db.any(`DELETE FROM tasks`)
+  .then(resetTaskIDs)
   .catch((err) => {
-    console.log(err.message + "problem clearing database");
+    console.log("problem clearing database " + err.message);
   });
 };
 
@@ -15,9 +18,11 @@ const resetTaskIDs = function () {
   });
 };
 
-const insertTasksFixtures () {
+const insertTaskData = function () {
   return Promise.all(
-    taskFixtures.map((task) => sql.createTask(task));
+    taskData.map((task) => {
+      createTask(task);
+    })
   )
   .catch((err) => {
     console.log(err.message + "problem inserting tasks from tasks.json");
@@ -25,9 +30,9 @@ const insertTasksFixtures () {
 };
 
 const resetDatabase = function () {
-  return clearDataBase()
+  return clearDatabase()
   .then(resetTaskIDs)
-  .then(insertTasksFixtures)
+  .then(insertTaskData)
   .catch((err) => {
     console.log(err.message + "problem resetting database");
   });
@@ -35,5 +40,7 @@ const resetDatabase = function () {
 
 module.exports = {
   clearDatabase,
-  resetDatabase
+  insertTaskData,
+  resetDatabase,
+  resetTaskIDs
 }
