@@ -19,10 +19,10 @@ const createTask = function (arg) {
     .then((data) => {
       console.log(`Task added: ${data.description}`);
     })
+    .then(data => data)
     .catch((err) => {
-      console.log(`input must be in this order: add, then a task.`);
-    })
-    pgp.end();
+      console.log(err, `input must be in this order: add, then a task.`);
+    });
 }
 
 const completeTask = function (id) {
@@ -37,8 +37,7 @@ const completeTask = function (id) {
   })
   .catch((err) => {
     console.log(`input must be in this order: complete, then task # you want to complete..`);
-  })
-  pgp.end();
+  });
 }
 
 const deleteTask = function (id) {
@@ -52,8 +51,7 @@ const deleteTask = function (id) {
     })
     .catch((err) => {
       console.log(`input must be in this order: delete, then the task number you want to delete.`);
-    })
-    pgp.end();
+    });
 }
 
 const listTasks = function () {
@@ -84,10 +82,8 @@ const listTasks = function () {
   })
   .catch((err) => {
     console.log(err);
-  })
-  pgp.end();
+  });
 }
-
 
 module.exports = {
   db,
@@ -95,4 +91,5 @@ module.exports = {
   completeTask,
   deleteTask,
   listTasks,
+  pgp
 }

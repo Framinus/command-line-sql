@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const { createTask, completeTask, deleteTask, listTasks } = require('./taskCommands.js');
+const pgp = require('pg-promise')();
 
 const command = process.argv[2];
 const arg = process.argv[3];
@@ -8,7 +9,19 @@ const arg = process.argv[3];
 const commandArray = ["add", "complete", "delete", "list"];
 const funcArray = [createTask, completeTask, deleteTask, listTasks];
 
+const initializeCmd = function () {
+  if (!commandArray.includes(command)) {
+    throw new Error('not a valid command!')
+  }
+  const index = commandArray.indexOf(command);
+  return funcArray[index](arg)
+  .then(data => data)
+  .catch((err) => {
+    console.log('error in initializeCmd func', err);
+  })
+  .finally(() => {
+    pgp.end();
+  });
+}
 
-  if (!commandArray.includes(command)) {throw new Error('not a valid command!')}
-    const index = commandArray.indexOf(command);
-    funcArray[index](arg);
+initializeCmd();
