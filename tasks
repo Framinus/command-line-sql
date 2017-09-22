@@ -19,9 +19,10 @@ const initializeCmd = function () {
   .catch((err) => {
     console.log('error in initializeCmd func', err);
   })
-  .finally(() => {
-    pgp.end();
-  });
+  // this finally block is throwing a syntax error.
+  // .finally(() => {
+  //   pgp.end();
+  // })
 }
 
 initializeCmd();
