@@ -1,4 +1,4 @@
-known issues:
+### Known issues:
 
 1) my test database data is not loading from my helpers.js file. clearDatabase and resetTaskIDs work.
 
@@ -6,7 +6,8 @@ known issues:
 
 3) there is a lag of about 7 seconds after i run query functions. The data has already been returned, so I am guessing that an open connection pool is the culprit.
 
-What I have tried:
+## What I have tried:
+
 a) adding in then(done, done) to my promises. mocha docs seems to say this is unnecessary; however, many developers disagree with the mocha docs.
 
 b) i have also tried modifying my query functions to return data so that mocha has something to work with.
