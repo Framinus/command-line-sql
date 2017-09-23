@@ -7,21 +7,21 @@ describe('createTask()', function () {
   it('is a function', function () {
     expect(createTask).to.be.a('function');
   });
+
   context('when the database is empty', function () {
-    clearDatabase();
+    beforeEach(clearDatabase);
     it('should add the task "pie" to the database', function (done) {
-      return createTask(task)
+      createTask("pie")
         .then((data) => {
-          console.log('logging the returned data', data);
           expect(data.description).to.equal("pie");
       })
       .then(done, done);
     });
   });
   context('when the database is loaded with test data', function () {
+    beforeEach(resetDatabase);
     it('should add the task "cake" to the database', function (done) {
-
-      return createTask("cake")
+      createTask("cake")
       .then(function(task) {
         expect(task.description).to.equal("cake");
       })
@@ -35,35 +35,35 @@ describe('completeTask()', function () {
     expect(completeTask).to.be.a('function');
   });
   it('should change a task to completed', function (done) {
-     return completeTask(1).then((task) => {
-      expect(task.completed).to.be(true);
+     completeTask(1).then((task) => {
+      expect(task.completed).to.equal(true);
     })
     .then(done, done);
   });
 });
 
 describe('deleteTask()', function () {
+  beforeEach(resetDatabase);
   it('is a function', function () {
     expect(deleteTask).to.be.a('function');
   });
   it('should delete a given task', function (done) {
-    createTask("delete me!");
-    return deleteTask(1).then((tasks) => {
-      expect(tasks.length).to.equal(0);
+    deleteTask(1)
+    listTasks().then((tasks) => {
+      expect(tasks.length).to.equal(9);
     })
     .then(done, done);
   });
 });
 
 describe('listTasks()', function () {
+  beforeEach(resetDatabase);
   it('is a function', function () {
     expect(listTasks).to.be.a('function');
   });
   it('should list all tasks', function (done) {
-    resetDatabase();
-    createTask("unicorns");
-    return listTasks().then((tasks) => {
-      expect(tasks.length).to.equal(1);
+    listTasks().then((tasks) => {
+      expect(tasks.length).to.equal(10);
     })
     .then(done, done);
   });

@@ -16,14 +16,15 @@ const createTask = function (arg) {
     VALUES ($1, $2)
     RETURNING *;
     `, [arg, false])
-    .then((data) => {
+    .then(data => {
       console.log(`Task added: ${data.description}`);
+      return data;
     })
-    .then(data => data)
     .catch((err) => {
       console.log(err, `input must be in this order: add, then a task.`);
     });
 }
+
 
 const completeTask = function (id) {
   return db.one(`
@@ -34,6 +35,7 @@ const completeTask = function (id) {
     `, [id])
   .then((data) => {
     console.log(`Completed task ${data.id}: ${data.description}`);
+    return data;
   })
   .catch((err) => {
     console.log(`input must be in this order: complete, then task # you want to complete..`);
@@ -48,6 +50,7 @@ const deleteTask = function (id) {
     `, id)
     .then((data) => {
       console.log(`Deleted task # ${data.id}: ${data.description}`);
+      return data;
     })
     .catch((err) => {
       console.log(`input must be in this order: delete, then the task number you want to delete.`);
@@ -79,6 +82,7 @@ const listTasks = function () {
     });
     console.log(`---------------------------`);
     console.log(`You have ${sortedArray.length} tasks.\n`);
+    return data;
   })
   .catch((err) => {
     console.log(err);
