@@ -1,6 +1,6 @@
 const sql = require('./../taskCommands.js');
 const pgp = require('pg-promise');
-const createTask = require('./../taskCommands.js');
+const { createTask } = require('./../taskCommands.js');
 const taskData = require('./fixtures/tasks.json');
 
 const clearDatabase = function () {
